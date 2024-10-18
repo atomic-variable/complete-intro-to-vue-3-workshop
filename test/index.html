@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Person of interest</title>
+  </head>
+  <body>
+    <div id="app">
+      <h1>Person of interest</h1>
+      <h3>Add to cast</h3>
+      <p>{{ wonders }} </p>
+      <p>Counter: {{counter}}</p>
+      <button @click="incrementCounter" >Increment counter</button>
+      <label>
+        Name <input type="text" v-model="newMember.name" @keyup.enter="addToCast" />
+      </label>
+      <h3>Cast</h3>
+      <ul>
+        <li v-for="member in cast">
+          <h4> {{member.name}} </h4>
+          <p> {{ member.wasKilledInTheShow ? member.character.toUpperCase() : member.character}} </p>
+          <button v-on:click="addToFavorites(member)">Add to favourites</button>
+        </li>
+      </ul>
+      <h3>Favourites</h3>
+      <p v-if="favourites.length === 0">No favourites</p>
+      <ul v-else>
+        <li v-for="member in favourites">
+          <h4> {{member.name}} </h4>
+        </li>
+      </ul>
+    </div>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script>
+      const app = Vue.createApp({
+        data() {
+          return {
+            newMember: {
+              name: ''
+            },
+            cast: [
+              {
+                name: "Michael Emerson",
+                character: "Harold Finch"
+              },
+              {
+                name: "Jim Caviziel",
+                character: "John Reese"
+              },
+              {
+                name: "Amy Acker",
+                character: "root"
+              },
+              // {
+              //   name: "Sara Shahi",
+              //   character: "Sameen Shah"
+              // },
+              // {
+              //   name: "Boris McGiver",
+              //   character: "Hersh"
+              // },
+              // {
+              //   name: "Camryn Manheim",
+              //   character: "Control"
+              // }
+            ],
+            favourites: [],
+            counter: 0
+          }
+        },
+        computed: {
+          wonders() {
+            if(this.counter > 7) {
+              return "7 world wonders"
+            } else {
+              return "No wonder"
+            }
+          }
+        },
+        methods: {
+          addToFavorites(member) {
+            this.favourites.push(member)
+          },
+          addToCast() {
+            this.cast.push(this.newMember);
+            this.newMember = {};
+          },
+          incrementCounter() {
+            this.counter++;
+          }
+        }
+      })
+      app.mount("#app");
+    </script>
+  </body>
+</html>
